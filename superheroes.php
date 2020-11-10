@@ -64,9 +64,35 @@ $superheroes = [
 ];
 
 ?>
+<?php // get the q parameter from URL
+$q = $_REQUEST["q"];
 
-<ul>
-<?php foreach ($superheroes as $superhero): ?>
-  <li><?= $superhero['alias']; ?></li>
-<?php endforeach; ?>
-</ul>
+$response = "";
+
+if ($q == "") {
+    foreach ($superheroes as $superhero){
+        echo "<li>" . $superhero['alias'];
+    }
+}
+
+// lookup all hints from array if $q is different from ""
+if ($q !== "") {
+  foreach($superheroes as $superhero) { 
+    if (in_array($q, $superhero)) {
+        echo "<h3>" .$superhero["name"];
+        echo "<h4>" ."A.K.A " .$superhero["alias"];
+        echo "<p>" .$superhero["biography"];
+    }
+    
+  }
+  $loopnum = 0;
+  foreach($superheroes as $superhero){
+    if (!in_array($q,$superhero)){
+      $loopnum++;
+  }
+}
+if ($loopnum == count($superheroes)){
+    echo "<h5>" ."SUPERHERO NOT FOUND";
+}
+}
+?>
